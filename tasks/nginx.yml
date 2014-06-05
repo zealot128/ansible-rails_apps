@@ -1,0 +1,33 @@
+---
+- template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/{{item.name}} owner=root group=root
+  with_items: apps
+  tags: [ssl]
+  notify: Reload nginx
+
+- file: path=/etc/nginx/cert state=directory
+  tags: [ssl]
+
+- copy: 'dest=/etc/nginx/cert/{{item.name}}.crt src={{item.ssl_cert}} owner=root mode=0600'
+  when: item.ssl_cert is defined
+  with_items: apps
+  notify: Reload nginx
+  tags: [ssl]
+
+- copy: 'dest=/etc/nginx/cert/{{item.name}}.key src={{item.ssl_key}} owner=root mode=0600'
+  when: item.ssl_key is defined
+  with_items: apps
+  notify: Reload nginx
+  tags: [ssl]
+
+- name: generate dhparam
+  shell: 'openssl dhparam -rand - 2048 >> /etc/nginx/cert/dhparam.pem creates=/etc/nginx/cert/dhparam.pem'
+  notify: Reload nginx
+  tags: [ssl]
+
+- template:  dest=/etc/nginx/nginx.conf src=nginx_main.conf.j2
+  with_items: apps
+  notify: Reload nginx
+
+- file: src=/etc/nginx/sites-available/{{item.name}} dest=/etc/nginx/sites-enabled/{{item.name}} state=link owner=root group=root
+  with_items: apps
+

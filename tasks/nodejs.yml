@@ -1,0 +1,6 @@
+---
+# http://stackoverflow.com/questions/16302436/install-nodejs-on-ubuntu-12-10/16303380#16303380
+- apt: pkg={{item}}
+  with_items:  [ python-software-properties, python, g++, make]
+- apt_repository: repo='ppa:chris-lea/node.js'
+- apt: pkg=nodejs

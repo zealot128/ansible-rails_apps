@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for key,value in item.env.iteritems() %}
+{{key}}={{value}}
+{% endfor %}

@@ -1,0 +1,39 @@
+---
+- name: Install ruby prerequisite
+  apt: pkg={{ item }} state=present
+  with_items:
+    - autoconf
+    - pkg-config
+    - bison
+    - build-essential
+    - gawk
+    - git-core
+    - libffi-dev
+    - libgdbm-dev
+    - libncurses5-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - libssl-dev
+    - libtool
+    - libyaml-dev
+    - sqlite3
+    - zlib1g-dev
+
+
+- name: 'Install RVM'
+  shell: 'curl -sSL https://get.rvm.io | bash -s -- --autolibs=read-fail creates=/home/{{item.user}}/.rvm/bin/rvm'
+  sudo_user: '{{item.user}}'
+  with_items: apps
+
+- shell: 'bash -l -c "cd /home/{{item.user}} && source .profile  && rvm --version" executable=/bin/bash'
+  environment:
+    HOME: '/home/{{item.user}}'
+  sudo_user: '{{item.user}}'
+  with_items: apps
+
+
+- shell: 'bash -l -c "cd /home/{{item.user}} && source .profile  && rvm install {{ruby_version}} --default" executable=/bin/bash creates=/home/{{item.user}}/.rvm/rubies/{{ruby_version}}/bin/ruby'
+  environment:
+    HOME: '/home/{{item.user}}'
+  sudo_user: '{{item.user}}'
+  with_items: apps

@@ -1,0 +1,7 @@
+# {{ansible_managed}}
+production:
+  adapter: postgresql
+  database: {{item.pg_database}}
+  encoding: UTF8
+  pool: 30
+

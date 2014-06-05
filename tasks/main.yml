@@ -1,0 +1,45 @@
+---
+- file: path={{item.path}} owner={{item.user}} state=directory
+  with_items: apps
+
+- file: path={{item.path}}/shared owner={{item.user}} state=directory
+  with_items: apps
+
+- file: path={{item.path}}/shared/config state=directory recurse=true owner={{item.user}}
+  with_items: apps
+
+- template: dest={{item.path}}/shared/config/secrets.yml src=secrets.yml.j2 owner={{item.user}}
+  with_items: apps
+  when: item.secrets is defined
+
+- template: dest={{item.path}}/shared/.env src=env owner={{item.user}}
+  with_items: apps
+  when: app.env is defined
+
+- template: dest=/etc/logrotate.d/{{item.name}} src=logrotate mode=0744
+  with_items: apps
+  when: app.logrotate is defined and app.logrotate
+
+- include: 'rvm.yml'
+  when: ruby_installation_method == 'rvm'
+
+- include: 'postgres.yml'
+
+- include: 'nginx.yml'
+  when: rails_nginx_site != false
+
+- include: 'nodejs.yml'
+  when: rails_install_nodejs_runtime
+
+- apt: pkg={{item}}
+  when: rails_install_imagemagick
+  with_items:
+  - libmagickwand-dev
+  - imagemagick
+
+- name: 'Curb'
+  apt: pkg=libcurl4-openssl-dev
+  when: rails_install_curb
+
+- include: 'wkhtml.yml'
+  when: rails_install_wkhtmltopdf
