@@ -16,7 +16,7 @@ Requirements
 
 Some requirements, that are covered by other roles:
 
-1. You need to create an user by yourself (e.g. 'app'), e.g:
+### 1. You need to create an user by yourself (e.g. 'app'), e.g:
 
 ```yaml
     - role: mivok0.users
@@ -31,7 +31,7 @@ Some requirements, that are covered by other roles:
           - '{{pubkeys.deployer}}'
 ```
 
-2. If you'd like to use Postgres, then you need to install postgres before, e.g. using this role:
+### 2. If you'd like to use Postgres, then you need to install postgres before, e.g. using this role:
 
 ```yaml
     - role: Ansibles.postgresql
@@ -55,7 +55,7 @@ Some requirements, that are covered by other roles:
 
 ```
 
-3. If you'd like to use the provided nginx passenger configs, than you need passenger as well:
+### 3. If you'd like to use the provided nginx passenger configs, than you need passenger as well:
 
 ```yaml
     - role: abtris.nginx-passenger
@@ -66,7 +66,7 @@ Role Variables
 
 There are two level of variables:
 
-1. Global
+### 1. Global
 
 ```yaml
 ruby_installation_method: rvm
@@ -91,7 +91,9 @@ rails_nginx_site: true
 
 ```
 
-2. an array of app-objects, like:
+### 2. an array of app-objects, like:
+
+
 
 ```yaml
   apps:
