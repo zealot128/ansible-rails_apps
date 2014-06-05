@@ -21,7 +21,9 @@
   with_items: apps
   when: item.pg_database is defined
 
-- cron: name='backup {{item.name}}' hour='4' minute=0 job='pg_dump -c {{item.pg_database}} | gzip > /backup/db/{{item.name}}/`date +\%F:\%T`.sql.gz' user='{{item.user}}'
+- cron: name='backup {{item.name}}' hour='4' minute=0
+        job="pg_dump -c {{item.pg_database}} | gzip > /backup/db/{{item.name}}/`date +\%F:\%T`.sql.gz && cd /backup/db/{{item.name}} && rm -f `ls -t | awk 'NR>7'`"
+        user='{{item.user}}'
   with_items: apps
   when: item.pg_database is defined
 
