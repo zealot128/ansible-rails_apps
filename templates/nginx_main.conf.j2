@@ -16,6 +16,13 @@ http {
         error_log /var/log/nginx/error.log;
         gzip on;
         gzip_disable "msie6";
+        gzip_types       text/plain application/xml text/css text/js text/xml application/x-javascript text/javascript application/json application/xml+rss;
+        gzip_comp_level 6;
+        #gzip_comp_level 9;
+        gzip_min_length  1100;
+        gzip_buffers 16 8k;
+        gzip_proxied any;
+
 
         passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
         passenger_max_pool_size 30;
