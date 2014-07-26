@@ -1,7 +1,8 @@
 ---
-- command: 'wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.0/wkhtmltox-linux-amd64_0.12.0-03c001d.tar.xz -O /tmp/wkhtml.tar.xz creates=/tmp/wkhtml.tar.xz'
-- command: 'tar Jxf /tmp/wkhtml.tar.xz -C /tmp/ --strip-components 1 --overwrite --overwrite-dir creates=/tmp/wkhtmltox/bin/wkhtmltopdf'
-- command: 'cp /tmp/wkhtmltox/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf creates=/usr/local/bin/wkhtmltopdf'
-- command: 'cp /tmp/wkhtmltox/bin/wkhtmltoimage /usr/local/bin/wkhtmltoimage creates=/usr/local/bin/wkhtmltoimage'
-
+- get_url:
+    url: '{{wkhtmltopdf_url}}'
+    dest: /root/wkhtmltox.deb
+- apt:
+    deb: /root/wkhtmltox.deb
 - apt: pkg=xvfb
+

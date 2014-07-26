@@ -20,3 +20,4 @@ rails_faye_port: 9292
 # creates deployment key for app user (user of first defined app, app[0].user)
 # will pause and show you the key, so you can copy/paste into your CI server
 create_app_deployment_key: true
+wkhtmltopdf_url: http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.2-dev/wkhtmltox-0.12.2-6a13a51_linux-precise-amd64.deb
