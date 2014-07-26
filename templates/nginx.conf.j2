@@ -35,7 +35,7 @@ server {
   root {{item.path}}/current/public;
   {% endif %}
 
-  {% if item.nginx_extra %}
+  {% if item.nginx_extra is defined %}
   {{item.nginx_extra}}
   {% endif %}
 
