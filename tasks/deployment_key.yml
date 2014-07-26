@@ -3,7 +3,7 @@
   shell: creates=/home/{{user}}/.ssh/id_rsa
          ssh-keygen -f /home/{{user}}/.ssh/id_rsa -t rsa -b 2048 -N ''
   register: user_pubkey
-  sudo_user: user
+  sudo_user: '{{user}}'
 
 - debug: var=user.stdout_lines
   when: user_pubkey | changed
