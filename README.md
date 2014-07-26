@@ -72,9 +72,6 @@ There are two level of variables:
 ruby_installation_method: rvm
 rails_pg_collocation: 'en_US.UTF-8' # de_DE.UTF-8'
 
-# wkhtmltopdf from source & xvfb
-rails_install_wkhtmltopdf: true
-
 # curb/curl
 rails_install_curb: true
 
@@ -88,6 +85,16 @@ rails_install_nodejs_runtime: true
 # put a /etc/nginx/sites-available/ file and active it
 #
 rails_nginx_site: true
+
+# creates deployment key for app user (user of first defined app, app[0].user)
+# will pause and show you the key, so you can copy/paste into your CI server
+create_app_deployment_key: true
+
+# wkhtmltopdf from source & xvfb
+rails_install_wkhtmltopdf: true
+# if you install wkhtmltopdf
+wkhtmltopdf_url: http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.2-dev/wkhtmltox-0.12.2-6a13a51_linux-precise-amd64.deb
+
 
 ```
 
@@ -140,6 +147,8 @@ Including an example of how to use your role (for instance, with variables passe
 
 ```yaml
   - hosts: servers
+    # PARAMOUNT if you need to install rvm
+    sudo: true
     roles:
     - role: rails_app
       ruby_version: '2.1.1'
@@ -162,6 +171,9 @@ Including an example of how to use your role (for instance, with variables passe
           twitter_token: "asdbasd"
           twitter_secret: "asdasdasdasd"
 
+```
+
+Do not forget to add sudo if you want to use the rvm installation. Otherwise the rvm will be installed system wide, which might interfere.
 
 
 License

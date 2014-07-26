@@ -20,9 +20,21 @@
     - zlib1g-dev
 
 
+# - shell: "whoami && pwd"
+#   sudo_user: '{{item.user}}'
+#   environment:
+#     HOME: '/home/{{item.user}}'
+#   register: result
+#   with_items: apps
+
+# - debug:
+#     msg: '{{result}}'
+
 - name: 'Install RVM'
   shell: 'curl -sSL https://get.rvm.io | bash -s -- --autolibs=read-fail creates=/home/{{item.user}}/.rvm/bin/rvm'
   sudo_user: '{{item.user}}'
+  environment:
+    HOME: '/home/{{item.user}}'
   with_items: apps
 
 - shell: 'bash -l -c "cd /home/{{item.user}} && source .profile  && rvm --version" executable=/bin/bash'

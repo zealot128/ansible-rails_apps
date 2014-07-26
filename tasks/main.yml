@@ -25,6 +25,7 @@
   user: '{{apps[0].user}}'
 
 - include: 'rvm.yml'
+  tags: [ruby]
   when: ruby_installation_method == 'rvm'
 
 - include: 'postgres.yml'
