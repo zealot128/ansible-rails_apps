@@ -20,6 +20,10 @@
   with_items: apps
   when: app.logrotate is defined and app.logrotate
 
+- include: 'deployment_key.yml'
+  when: create_app_deployment_key
+  user: '{{apps[0].user}}'
+
 - include: 'rvm.yml'
   when: ruby_installation_method == 'rvm'
 

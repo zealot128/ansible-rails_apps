@@ -1,0 +1,24 @@
+---
+- name: Generate SSH keys for user
+  shell: creates=/home/{{user}}/.ssh/id_rsa
+         ssh-keygen -f /home/{{user}}/.ssh/id_rsa -t rsa -b 2048 -N ''
+  register: user_pubkey
+  sudo_user: user
+
+- debug: var=user.stdout_lines
+  when: user_pubkey | changed
+
+- name: Show SSH public key
+  command: /bin/cat /home/{{user}}/.ssh/id_rsa.pub
+  register: cat
+  when: user_pubkey | changed
+
+- debug: var=cat.stdout_lines
+  when: user_pubkey | changed
+
+- name: Wait for user to copy SSH public key
+  pause: prompt="Please add the SSH public key above to the relevant git-accounts and press enter afterwards. This message will not repeat. If you need that pubkey again, find it on /home/{{user}}/.ssh/id_rsa.pub"
+  register: pause
+  when: user_pubkey | changed
+
+
